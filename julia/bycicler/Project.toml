@@ -1,0 +1,8 @@
+name = "bycicler"
+uuid = "f067b237-97e7-4aa3-af48-9279be8f2d99"
+authors = ["Jorge Cimentada <cimentadaj@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+HTTP = "cd3eb016-35fb-5094-929b-558a96fad6f3"
+JSONTables = "b9914132-a727-11e9-1322-f18e41205b0b"
