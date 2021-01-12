@@ -4,16 +4,26 @@ using JSON
 using HTTP
 using DataFrames
 
-res = HTTP.get("http://api.citybik.es/v2/networks/bicing?fields=stations")
+function get_data(url)
+    res = HTTP.get(url)
+    res_str = String(res.body)
+    res_array = JSON.Parser.parse(res_str)["network"]["stations"]
+    res_array
+end
 
-status, headers, body = res.status, res.headers , String(res.body)
+function dict2df(dict)
+    extra = dict["extra"]
+    delete!(dict, "extra")
+    hcat(
+        DataFrames.DataFrame(dict),
+        DataFrames.DataFrame(extra)
+    )
+end
 
-res_str = JSON.Parser.parse(String(res.body))
-
-res_json = JSON.Parser.parse(res_str)
-
-jtable = JSONTables.jsontable(String(res.body))
-
-greet() = print("Hello World!")
+function convert_data(url)
+    res_array = get_data(url)
+    res = vcat(map(dict2df, res_array)...)
+    res
+end
 
 end # module
